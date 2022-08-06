@@ -1,26 +1,26 @@
 var cacheName = 'yew-pwa';
 var filesToCache = [
-  './',
-  './index.html',
-  './pkg/bundle.js',
-  './pkg/yew_wasm_pack_minimal_bg.wasm'
+    './',
+    './index.html',
+    './yew-pwa-poc.js',
+    './yew-pwa-poc_bg.wasm'
 ];
 
 
-/* Start the service worker and cache all of the app's content */
+/* Start the service worker and cache all the app's content */
 self.addEventListener('install', function(e) {
-  e.waitUntil(
-    caches.open(cacheName).then(function(cache) {
-      return cache.addAll(filesToCache);
-    })
-  );
+    e.waitUntil(
+        caches.open(cacheName).then(function(cache) {
+            return cache.addAll(filesToCache);
+        })
+    );
 });
 
 /* Serve cached content when offline */
 self.addEventListener('fetch', function(e) {
-  e.respondWith(
-    caches.match(e.request).then(function(response) {
-      return response || fetch(e.request);
-    })
-  );
+    e.respondWith(
+        caches.match(e.request).then(function(response) {
+            return response || fetch(e.request);
+        })
+    );
 });
